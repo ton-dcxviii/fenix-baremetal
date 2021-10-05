@@ -126,7 +126,7 @@ server {
 
 #### Server Block (Production): WP-Login Settings (Rate Limiting) ####
 
-    location = /wp-login.php {
+    location ^~ /wp/wp-login.php {
             include /etc/nginx/fastcgi.conf;
             try_files $uri =404;
             fastcgi_split_path_info ^(.+\.php)(/.+)$;
@@ -141,6 +141,7 @@ server {
     ## rate limit zone
             limit_req zone=wplogin burst=1 nodelay;
     }
+
     location ~ /\.ht {
             deny all;
     }
@@ -148,9 +149,11 @@ server {
     location = /favicon.ico {
         try_files $uri =204;
     }
+
     location = /robots.txt {
         try_files $uri $uri/ /index.php?$args;
     }
+    
     location ~* \.(css|gif|ico|jpeg|jpg|js|png)$ {
             expires max;
     }
