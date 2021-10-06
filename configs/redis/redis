@@ -15,7 +15,7 @@ REDISPORT=6379
 EXEC=/usr/local/bin/redis-server
 CLIEXEC=/usr/local/bin/redis-cli
 
-PIDFILE=/var/run/redis/redis_server.pid
+PIDFILE=/var/run/redis/redis-server.pid
 CONF="/etc/redis/redis.conf"
 
 case "$1" in
