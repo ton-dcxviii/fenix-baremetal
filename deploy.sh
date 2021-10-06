@@ -95,10 +95,10 @@ echo ""
 
 sudo apt update
 sudo apt -y upgrade
+sudo apt -y install git
 sudo apt -y install nginx-extras
 sudo apt -y install php7.4-fpm php7.4-bcmath php7.4-curl php7.4-gd php7.4-imagick php7.4-json php7.4-mbstring php7.4-mysql php7.4-soap php7.4-sqlite3 php7.4-xml php7.4-zip
 sudo apt -y install certbot
-sudo apt -y install redis-server
 sudo apt -y install php-redis
 sudo apt -y install composer
 sudo apt -y install php-xmlwriter ## required by composer
@@ -159,10 +159,35 @@ sed -i "s/@SITE_TLD/${SITE_TLD}/g" /var/www/sites/${SITE_TLD}
 sed -i "s/@SITE_DOMAIN/${DOMAIN}/g" /var/www/sites/${SITE_TLD}
 sudo systemctl restart nginx
 
-## Redis Config ##
-sed -i '/maxmemory.*bytes.*/c\maxmemory 256mb' "/etc/redis/redis.conf"
-sed -i '/maxmemory-policy noeviction/c\maxmemory-policy allkeys-lru' "/etc/redis/redis.conf"
-sed -i '/always-show-logo yes/c\always-show-logo no' "/etc/redis/redis.conf"
+## Redis Installation ##
+mkdir /etc/redis
+mkdir /var/run/redis/
+mkdir /var/lib/Redis
+mkdir /var/log/redis
+sudo apt -y install tcl pkg-config build-essential
+cd
+sudo wget http://download.redis.io/redis-stable.tar.gz
+sudo tar xvzf redis-stable.tar.gz
+cd redis-stable
+sudo make 
+wait
+sudo make test
+wait
+sudo make install
+wait
+sudo svn export --force https://github.com/ton-dcxviii/fenix-baremetal/trunk/configs/redis/redis /etc/init.d/redis_6379
+sudo svn export --force https://github.com/ton-dcxviii/fenix-baremetal/trunk/configs/redis/redis.conf /etc/redis/redis.conf
+wait
+sudo update-rc.d redis_6379 defaults
+cd
+sudo git clone --recursive https://github.com/RediSearch/RediSearch.git
+cd RediSearch
+sudo make setup
+wait
+sudo make build
+wait
+cp build/redisearch.so /etc/redis/redisearch.so
+sudo /etc/init.d/redis start
 
 ## Debian does not ship mysql packages. Manual intervention required ##
 sudo wget https://repo.mysql.com//mysql-apt-config_0.8.19-1_all.deb
