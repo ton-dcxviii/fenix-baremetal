@@ -162,7 +162,7 @@ sudo systemctl restart nginx
 ## Redis Installation ##
 mkdir /etc/redis
 mkdir /var/run/redis/
-mkdir /var/lib/Redis
+mkdir /var/lib/redis
 mkdir /var/log/redis
 sudo apt -y install tcl pkg-config build-essential
 cd
@@ -178,6 +178,7 @@ wait
 sudo svn export --force https://github.com/ton-dcxviii/fenix-baremetal/trunk/configs/redis/redis /etc/init.d/redis_6379
 sudo svn export --force https://github.com/ton-dcxviii/fenix-baremetal/trunk/configs/redis/redis.conf /etc/redis/redis.conf
 wait
+chmod +x /etc/init.d/redis_6379
 sudo update-rc.d redis_6379 defaults
 cd
 sudo git clone --recursive https://github.com/RediSearch/RediSearch.git
@@ -187,6 +188,7 @@ wait
 sudo make build
 wait
 cp build/redisearch.so /etc/redis/redisearch.so
+update-rc.d redis_6379 defaults
 sudo /etc/init.d/redis start
 
 ## Debian does not ship mysql packages. Manual intervention required ##
