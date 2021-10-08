@@ -189,7 +189,7 @@ sudo make build
 wait
 cp build/redisearch.so /etc/redis/redisearch.so
 update-rc.d redis_6379 defaults
-sudo /etc/init.d/redis start
+sudo /etc/init.d/redis_6379 start
 
 ## Debian does not ship mysql packages. Manual intervention required ##
 sudo wget https://repo.mysql.com//mysql-apt-config_0.8.19-1_all.deb
