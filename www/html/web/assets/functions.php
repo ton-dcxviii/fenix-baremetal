@@ -38,3 +38,7 @@ function wp_kses_allowed_html_post_tags( $allowedposttags, $context ) {
     return $allowedposttags;
 }
 add_filter( 'wp_kses_allowed_html', 'wp_kses_allowed_html_post_tags', 10, 2 );
+
+// Disable plugin updates
+remove_action( 'load-update-core.php', 'wp_update_plugins' );
+add_filter( 'pre_site_transient_update_plugins', create_function( '$a', "return null;" ) );
