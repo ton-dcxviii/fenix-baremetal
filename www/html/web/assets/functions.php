@@ -1,4 +1,5 @@
 <?php
+
 // Remove Gutenberg block library
 function remove_block_css() {
 wp_dequeue_style( 'wp-block-library' ); // Wordpress core
