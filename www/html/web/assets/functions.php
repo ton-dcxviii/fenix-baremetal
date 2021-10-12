@@ -12,3 +12,24 @@ add_filter( 'wc_checkout_add_ons_position', 'sv_wc_checkout_addons_change_positi
 function sv_wc_checkout_addons_change_position() {
 	return 'woocommerce_review_order_before_payment';
 }
+add_filter( 'wp_kses_allowed_html', 'wp_kses_allowed_html_svg', 10, 2 );
+function wp_kses_allowed_html_svg( $allowedposttags, $context ) {
+    if ( $context === 'post' ) {
+        $allowedposttags['svg']  = array(
+			'fill' => true,
+			'stroke' => true,
+            'xmlns'   => true,
+            'viewbox' => true
+        );
+        $allowedposttags['path'] = array(
+            'd'    => true,
+            'fill' => true,
+			'stroke-linecap' => true,
+			'stroke-linejoin' => true,
+			'stroke-width' => true
+
+
+        );
+    }
+    return $allowedposttags;
+}
