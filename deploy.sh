@@ -122,6 +122,8 @@ sudo chmod 0600 /var/www/cache/system ## must be 0600
 sudo fallocate -l 4G /var/www/cache/system/swapfile
 sudo chown root:root /var/www/cache/system/swapfile ## must be root:root
 sudo chmod 0600 /var/www/cache/system/swapfile ## must be 0600
+sudo mkswap /var/www/cache/system/swapfile
+sudo swapon /var/www/cache/system/swapfile
 echo "/var/www/cache/system/swapfile none swap sw 0 0" | sudo tee -a /etc/fstab >/dev/null
 
 ## Create directories and assigning ownerships
