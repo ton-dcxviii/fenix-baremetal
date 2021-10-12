@@ -8,3 +8,7 @@ wp_dequeue_style( 'wp-block-library-theme' ); // Wordpress core
 wp_dequeue_style( 'wc-block-style' ); // WooCommerce
 wp_dequeue_style( 'storefront-gutenberg-blocks' ); // Storefront theme
 }
+add_filter( 'wc_checkout_add_ons_position', 'sv_wc_checkout_addons_change_position' );
+function sv_wc_checkout_addons_change_position() {
+	return 'woocommerce_review_order_before_payment';
+}
