@@ -1,5 +1,9 @@
 <?php
 
+// Disable plugin updates
+remove_action( 'load-update-core.php', 'wp_update_plugins' );
+add_filter( 'pre_site_transient_update_plugins', create_function( '$a', "return null;" ) );
+
 // Remove Gutenberg block library
 function remove_block_css() {
 wp_dequeue_style( 'wp-block-library' ); // Wordpress core
@@ -9,12 +13,6 @@ wp_dequeue_style( 'storefront-gutenberg-blocks' ); // Storefront theme
 }
 add_filter('use_block_editor_for_post_type', '__return_false', 10);
 add_action( 'wp_enqueue_scripts', 'remove_block_css', 100 );
-
-// Woocommerce Checkout Addon positioning
-function sv_wc_checkout_addons_change_position() {
-	return 'woocommerce_review_order_before_payment';
-}
-add_filter( 'wc_checkout_add_ons_position', 'sv_wc_checkout_addons_change_position' );
 
 // Allow post tags
 function wp_kses_allowed_html_post_tags( $allowedposttags, $context ) {
@@ -39,7 +37,13 @@ function wp_kses_allowed_html_post_tags( $allowedposttags, $context ) {
 }
 add_filter( 'wp_kses_allowed_html', 'wp_kses_allowed_html_post_tags', 10, 2 );
 
-// Disable shipping calculation on cart page
+// Woocommerce Checkout Addon positioning
+function sv_wc_checkout_addons_change_position() {
+	return 'woocommerce_review_order_before_payment';
+}
+add_filter( 'wc_checkout_add_ons_position', 'sv_wc_checkout_addons_change_position' );
+
+// Woocommerce disable shipping calculation on cart page
 function disable_shipping_calc_on_cart( $show_shipping ) {
     if( is_cart() ) {
         return false;
@@ -48,8 +52,9 @@ function disable_shipping_calc_on_cart( $show_shipping ) {
 }
 add_filter( 'woocommerce_cart_ready_to_calc_shipping', 'disable_shipping_calc_on_cart', 99 );
 
-// Disable plugin updates
-remove_action( 'load-update-core.php', 'wp_update_plugins' );
-add_filter( 'pre_site_transient_update_plugins', create_function( '$a', "return null;" ) );
-
-
+// Woocommerce remove product data tabs
+add_filter( 'woocommerce_product_tabs', 'remove_product_tabs', 98 );
+function remove_product_tabs( $tabs ) {
+    unset( $tabs['additional_information'] );
+    return $tabs;
+}
