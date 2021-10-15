@@ -1,8 +1,8 @@
 <?php
 
 // Disable plugin updates
-remove_action( 'load-update-core.php', 'wp_update_plugins' );
-add_filter( 'pre_site_transient_update_plugins', create_function( '$a', "return null;" ) );
+remove_action('load-update-core.php', 'wp_update_plugins');
+add_filter('pre_site_transient_update_plugins', '__return_null');
 
 // Remove Gutenberg block library
 function remove_block_css() {
