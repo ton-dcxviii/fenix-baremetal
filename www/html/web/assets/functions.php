@@ -53,8 +53,8 @@ function disable_shipping_calc_on_cart( $show_shipping ) {
 add_filter( 'woocommerce_cart_ready_to_calc_shipping', 'disable_shipping_calc_on_cart', 99 );
 
 // Woocommerce remove product data tabs
-add_filter( 'woocommerce_product_tabs', 'remove_product_tabs', 98 );
 function remove_product_tabs( $tabs ) {
     unset( $tabs['additional_information'] );
     return $tabs;
 }
+add_filter( 'woocommerce_product_tabs', 'remove_product_tabs', 98 );
