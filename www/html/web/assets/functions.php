@@ -37,12 +37,6 @@ function wp_kses_allowed_html_post_tags( $allowedposttags, $context ) {
 }
 add_filter( 'wp_kses_allowed_html', 'wp_kses_allowed_html_post_tags', 10, 2 );
 
-// Woocommerce Checkout Addon positioning
-function sv_wc_checkout_addons_change_position() {
-	return 'woocommerce_review_order_before_payment';
-}
-add_filter( 'wc_checkout_add_ons_position', 'sv_wc_checkout_addons_change_position' );
-
 // Woocommerce disable shipping calculation on cart page
 function disable_shipping_calc_on_cart( $show_shipping ) {
     if( is_cart() ) {
