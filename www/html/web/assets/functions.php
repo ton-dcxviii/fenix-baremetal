@@ -118,6 +118,26 @@ function custom_column_into_product_list($column, $post_id ){
 add_action( 'manage_product_posts_custom_column' , 'custom_column_into_product_list', 10, 2 );
 
 
+// ***** Format and validate billing phone *****
+function validate_billing_phone() {	
+	$number = preg_replace("/[^\d]/","",$_POST['billing_phone']); // Remove all non-digits
+	$length = strlen($number); 	// Get number of digits
+
+	//if($length == 8) {
+	//	$_POST['billing_phone'] = preg_replace("/^(\d{4})(\d{4})$/", "$1$2", "+".$number);
+	//}
+	//else if($length == 10) {
+	//	$_POST['billing_phone'] = preg_replace("/^(\d{3})(\d{3})(\d{4})$/", "$1$2$3", "+".$number);
+	//}
+	//else if($length == 11) {
+	//	$_POST['billing_phone'] = preg_replace("/^1?(\d{3})(\d{3})(\d{4})$/", "$1$2$3", "+".$number);
+	//}
+	//else if($length == 12) {
+	//	$_POST['billing_phone'] = preg_replace("/^1?(\d{3})(\d{3})(\d{3})(\d{3})$/", "$1$2$3$4", "+".$number);
+	//}	
+}
+add_action('woocommerce_checkout_process', 'validate_billing_phone');
+
 
 
 
